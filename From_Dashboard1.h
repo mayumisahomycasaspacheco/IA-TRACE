@@ -21,14 +21,27 @@ namespace IATRACE {
 			
 			//Usaremos valores de prurba por ahora skibidi
 
-			categoria_top = "Tarea";
-			cantidad_categoria_top = 38;
-
 			curso_top = "Algoritmos";
 			porcentaje_curso_top = 41;
 
 			mes_top = "Septiembre";
 			cantidad_mes_top = 52;
+
+			nombres_categoria = gcnew array<String^> {"Tarea", "LB1", "Reto", "Examen", "Teoria", "Errores"};
+			conteo_categoria = gcnew array<int> {38, 22, 30, 18, 26, 14};
+
+			int indice_mayor = 0;
+
+			for (int i = 1; i < conteo_categoria->Length; i++)
+			{
+				if (conteo_categoria[i] > conteo_categoria[indice_mayor])
+				{
+					indice_mayor = i;
+				}
+			}
+
+			categoria_top = nombres_categoria[indice_mayor];
+			cantidad_categoria_top = conteo_categoria[indice_mayor];
 		}
 
 	protected:
@@ -81,6 +94,9 @@ namespace IATRACE {
 		String^ mes_top;
 		int cantidad_mes_top;
 
+		array<String^>^ nombres_categoria;
+		array<int>^ conteo_categoria;
+
 	private: System::Void From_Dashboard1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) 
 	{
 		Graphics^ graphics = e->Graphics;
@@ -88,6 +104,18 @@ namespace IATRACE {
 		Rectangle rectangulo_izquierdo = Rectangle(20, 40, 560, 480);
 		Rectangle rectangulo_derecho = Rectangle(600, 40, 560, 480);
 		Rectangle rectangulo_abajo = Rectangle(20, 550, 1140, 120);
+
+		int n = conteo_categoria->Length;
+		int base_y = rectangulo_izquierdo.Bottom - 90;
+		int alto_maximo = rectangulo_izquierdo.Height - 160;
+		int ancho_barra = 55;
+
+		int hueco = (rectangulo_izquierdo.Width - 40 - n * ancho_barra) / (n + 1);
+		int x = rectangulo_izquierdo.X + 20 + hueco;
+
+		int alto = (int)((double)conteo_categoria[0] / cantidad_categoria_top * alto_maximo);
+		SolidBrush^ pincel = gcnew SolidBrush(Color::FromArgb(37, 12, 82));
+		graphics->FillRectangle(pincel, x, base_y - alto, ancho_barra, alto);
 
 		System::Drawing::Font^ fuente_titulo = gcnew System::Drawing::Font("Segoe UI", 12, FontStyle::Bold);
 
