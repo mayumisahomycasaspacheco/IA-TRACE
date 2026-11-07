@@ -30,6 +30,15 @@ namespace IATRACE {
 			nombres_categoria = gcnew array<String^> {"Tarea", "LB1", "Reto", "Examen", "Teoria", "Errores"};
 			conteo_categoria = gcnew array<int> {38, 22, 30, 18, 26, 14};
 
+			colores = gcnew array<Color> {
+				Color::FromArgb(37, 12, 82),
+					Color::FromArgb(14, 122, 140),
+					Color::FromArgb(245, 166, 35),
+					Color::FromArgb(214, 0, 153),
+					Color::FromArgb(94, 60, 153),
+					Color::FromArgb(58, 140, 90)
+			};
+
 			int indice_mayor = 0;
 
 			for (int i = 1; i < conteo_categoria->Length; i++)
@@ -96,6 +105,7 @@ namespace IATRACE {
 
 		array<String^>^ nombres_categoria;
 		array<int>^ conteo_categoria;
+		array<Color>^ colores;
 
 	private: System::Void From_Dashboard1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) 
 	{
@@ -113,9 +123,19 @@ namespace IATRACE {
 		int hueco = (rectangulo_izquierdo.Width - 40 - n * ancho_barra) / (n + 1);
 		int x = rectangulo_izquierdo.X + 20 + hueco;
 
-		int alto = (int)((double)conteo_categoria[0] / cantidad_categoria_top * alto_maximo);
-		SolidBrush^ pincel = gcnew SolidBrush(Color::FromArgb(37, 12, 82));
-		graphics->FillRectangle(pincel, x, base_y - alto, ancho_barra, alto);
+		System::Drawing::Font^ fuente_etiqueta = gcnew System::Drawing::Font("Segoe UI", 11);
+
+		for (int i = 0; i < n; i++)
+		{
+			int alto = (int)((double)conteo_categoria[i] / cantidad_categoria_top * alto_maximo);
+			SolidBrush^ pincel = gcnew SolidBrush(colores[i % colores->Length]);
+			graphics->FillRectangle(pincel, x, base_y - alto, ancho_barra, alto);
+
+			graphics->DrawString(conteo_categoria[i].ToString(), fuente_etiqueta, Brushes::Black, (float)(x + 17), (float)(base_y - alto - 25));
+			graphics->DrawString(nombres_categoria[i], fuente_etiqueta, Brushes::Black, (float)x, (float)(base_y + 8));
+
+			x += ancho_barra + hueco;
+		}
 
 		System::Drawing::Font^ fuente_titulo = gcnew System::Drawing::Font("Segoe UI", 12, FontStyle::Bold);
 
