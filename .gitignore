@@ -1,0 +1,25 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.vcxproj.user
+
+# Compilación
+Debug/
+Release/
+x64/
+x86/
+bin/
+obj/
+*.obj
+*.pdb
+*.ilk
+*.exe
+*.idb
+*.ipch
+*.tlog
+*.log
+
+# Windows
+Thumbs.db
+Desktop.ini
