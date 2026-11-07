@@ -138,14 +138,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Form_Menu.cpp" />
     <ClCompile Include="From_Dashboard1.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Form_Menu.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="From_Dashboard1.h">
       <FileType>CppForm</FileType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Form_Menu.resx">
+      <DependentUpon>Form_Menu.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="From_Dashboard1.resx">
       <DependentUpon>From_Dashboard1.h</DependentUpon>
     </EmbeddedResource>
