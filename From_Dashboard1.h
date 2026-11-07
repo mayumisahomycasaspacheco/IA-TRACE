@@ -30,6 +30,16 @@ namespace IATRACE {
 			nombres_categoria = gcnew array<String^> {"Tarea", "LB1", "Reto", "Examen", "Teoria", "Errores"};
 			conteo_categoria = gcnew array<int> {38, 22, 30, 18, 26, 14};
 
+			nombres_curso = gcnew array<String^> {"Algoritmos", "Matematica", "Fisica", "Lenguaje", "Otros"};
+			conteo_curso = gcnew array<int> {41, 23, 19, 11, 6};
+
+			total_curso = 0;
+
+			for (int i = 0; i < conteo_curso->Length; i++)
+			{
+				total_curso += conteo_curso[i];
+			}
+
 			colores = gcnew array<Color> {
 				Color::FromArgb(37, 12, 82),
 					Color::FromArgb(14, 122, 140),
@@ -107,6 +117,11 @@ namespace IATRACE {
 		array<int>^ conteo_categoria;
 		array<Color>^ colores;
 
+		array<String^>^ nombres_curso;
+		array<int>^ conteo_curso;
+
+		int total_curso;
+
 	private: System::Void From_Dashboard1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) 
 	{
 		Graphics^ graphics = e->Graphics;
@@ -135,6 +150,18 @@ namespace IATRACE {
 			graphics->DrawString(nombres_categoria[i], fuente_etiqueta, Brushes::Black, (float)x, (float)(base_y + 8));
 
 			x += ancho_barra + hueco;
+		}
+
+		Rectangle caja_pastel = Rectangle(rectangulo_derecho.X + 40, rectangulo_derecho.Y + 60, 300, 300);
+
+		float angulo_inicio = 0;
+
+		for (int i = 0; i < conteo_curso->Length; i++)
+		{
+			float angulo = (float)conteo_curso[i] / total_curso * 360;
+			SolidBrush^ pincel_pastel = gcnew SolidBrush(colores[i % colores->Length]);
+			graphics->FillPie(pincel_pastel, caja_pastel, angulo_inicio, angulo);
+			angulo_inicio += angulo;
 		}
 
 		System::Drawing::Font^ fuente_titulo = gcnew System::Drawing::Font("Segoe UI", 12, FontStyle::Bold);
