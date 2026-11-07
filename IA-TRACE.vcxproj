@@ -138,10 +138,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Form_Dashboard2.cpp" />
     <ClCompile Include="Form_Menu.cpp" />
     <ClCompile Include="From_Dashboard1.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Form_Dashboard2.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="Form_Menu.h">
       <FileType>CppForm</FileType>
     </ClInclude>

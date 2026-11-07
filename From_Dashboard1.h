@@ -76,7 +76,7 @@ namespace IATRACE {
 			{
 				if (conteo_mes[i] > conteo_mes[indice_mayor_mes])
 				{
-					indice_mayor_categoria = i;
+					indice_mayor_mes = i;
 				}
 			}
 
