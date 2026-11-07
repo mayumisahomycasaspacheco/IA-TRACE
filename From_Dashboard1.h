@@ -21,9 +21,6 @@ namespace IATRACE {
 			
 			//Usaremos valores de prurba por ahora skibidi
 
-			curso_top = "Algoritmos";
-			porcentaje_curso_top = 41;
-
 			mes_top = "Septiembre";
 			cantidad_mes_top = 52;
 
@@ -49,18 +46,31 @@ namespace IATRACE {
 					Color::FromArgb(58, 140, 90)
 			};
 
-			int indice_mayor = 0;
+			int indice_mayor_categoria = 0;
 
 			for (int i = 1; i < conteo_categoria->Length; i++)
 			{
-				if (conteo_categoria[i] > conteo_categoria[indice_mayor])
+				if (conteo_categoria[i] > conteo_categoria[indice_mayor_categoria])
 				{
-					indice_mayor = i;
+					indice_mayor_categoria = i;
 				}
 			}
 
-			categoria_top = nombres_categoria[indice_mayor];
-			cantidad_categoria_top = conteo_categoria[indice_mayor];
+			categoria_top = nombres_categoria[indice_mayor_categoria];
+			cantidad_categoria_top = conteo_categoria[indice_mayor_categoria];
+
+			int indice_mayor_curso = 0;
+
+			for (int i = 1; i < conteo_curso->Length; i++)
+			{
+				if (conteo_curso[i] > conteo_curso[indice_mayor_curso])
+				{
+					indice_mayor_curso = i;
+				}
+			}
+
+			curso_top = nombres_curso[indice_mayor_curso];
+			porcentaje_curso_top = conteo_curso[indice_mayor_curso] * 100.0 / total_curso;
 		}
 
 	protected:
@@ -120,6 +130,9 @@ namespace IATRACE {
 		array<String^>^ nombres_curso;
 		array<int>^ conteo_curso;
 
+		array<String^>^ nombre_mes;
+		array<int>^ conteo_mes;
+
 		int total_curso;
 
 	private: System::Void From_Dashboard1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) 
@@ -161,6 +174,14 @@ namespace IATRACE {
 			float angulo = (float)conteo_curso[i] / total_curso * 360;
 			SolidBrush^ pincel_pastel = gcnew SolidBrush(colores[i % colores->Length]);
 			graphics->FillPie(pincel_pastel, caja_pastel, angulo_inicio, angulo);
+
+			double porcentaje = conteo_curso[i] * 100.0 / total_curso;
+			int y_leyenda = rectangulo_derecho.Y + 100 + i * 40;
+
+			graphics->FillRectangle(pincel_pastel, rectangulo_derecho.X +360, y_leyenda, 20, 20);
+			String^ texto_leyenda = String::Format("{0} - {1:F0}%", nombres_curso[i], porcentaje);
+			graphics->DrawString(texto_leyenda, fuente_etiqueta, Brushes::Black, (float)(rectangulo_derecho.X + 390), (float)(y_leyenda));
+
 			angulo_inicio += angulo;
 		}
 
