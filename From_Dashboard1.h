@@ -18,17 +18,15 @@ namespace IATRACE {
 		From_Dashboard1(void)
 		{
 			InitializeComponent();
-			
-			//Usaremos valores de prurba por ahora skibidi
-
-			mes_top = "Septiembre";
-			cantidad_mes_top = 52;
 
 			nombres_categoria = gcnew array<String^> {"Tarea", "LB1", "Reto", "Examen", "Teoria", "Errores"};
 			conteo_categoria = gcnew array<int> {38, 22, 30, 18, 26, 14};
 
 			nombres_curso = gcnew array<String^> {"Algoritmos", "Matematica", "Fisica", "Lenguaje", "Otros"};
 			conteo_curso = gcnew array<int> {41, 23, 19, 11, 6};
+
+			nombres_mes = gcnew array<String^> {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+			conteo_mes = gcnew array<int> {0, 0, 0, 0, 0, 0, 0, 20, 52, 38, 25, 10};
 
 			total_curso = 0;
 
@@ -71,6 +69,19 @@ namespace IATRACE {
 
 			curso_top = nombres_curso[indice_mayor_curso];
 			porcentaje_curso_top = conteo_curso[indice_mayor_curso] * 100.0 / total_curso;
+
+			int indice_mayor_mes = 0;
+
+			for (int i = 1; i < conteo_mes->Length; i++)
+			{
+				if (conteo_mes[i] > conteo_mes[indice_mayor_mes])
+				{
+					indice_mayor_categoria = i;
+				}
+			}
+
+			mes_top = nombres_mes[indice_mayor_mes];
+			cantidad_mes_top = conteo_mes[indice_mayor_mes];
 		}
 
 	protected:
@@ -130,7 +141,7 @@ namespace IATRACE {
 		array<String^>^ nombres_curso;
 		array<int>^ conteo_curso;
 
-		array<String^>^ nombre_mes;
+		array<String^>^ nombres_mes;
 		array<int>^ conteo_mes;
 
 		int total_curso;
