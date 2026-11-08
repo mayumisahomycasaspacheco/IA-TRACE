@@ -18,9 +18,24 @@ namespace IATRACE {
 		Form_Dashboard2(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: agregar código de constructor aquí
-			//
+			//Datos de prueba
+
+			nombres_herramientas = gcnew array<String^> {"ChatGPT", "Claude", "Copilot", "Gemini"};
+			total_herramienta = gcnew array<int> {52, 38, 29, 23};
+			verificadas_herramienta = gcnew array<int> {44, 33, 15, 17};
+
+			conteo_semana = gcnew array<int> {6, 8, 10, 12, 14, 13, 15, 16, 14, 13, 11, 10};
+
+			colores = gcnew array<Color>{
+				Color::FromArgb(37, 12, 82),
+					Color::FromArgb(14, 122, 140),
+					Color::FromArgb(245, 166, 35),
+					Color::FromArgb(214, 0, 153),
+					Color::FromArgb(94, 60, 153),
+					Color::FromArgb(58, 140, 90)
+			};
+
+			calcular_indicadores();
 		}
 
 	protected:
@@ -39,7 +54,7 @@ namespace IATRACE {
 		/// <summary>
 		/// Variable del diseñador necesaria.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -53,12 +68,13 @@ namespace IATRACE {
 			// Form_Dashboard2
 			// 
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::None;
-			this->ClientSize = System::Drawing::Size(1162, 673);
+			this->ClientSize = System::Drawing::Size(1180, 720);
 			this->DoubleBuffered = true;
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
+			this->MaximizeBox = false;
 			this->Name = L"Form_Dashboard2";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
-			this->Text = L"Form_Dashboard2";
+			this->Text = L"IA-TRACE - Dashboard 2: Métricas e Indicadores";
 			this->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &Form_Dashboard2::Form_Dashboard2_Paint);
 			this->ResumeLayout(false);
 
@@ -80,7 +96,7 @@ namespace IATRACE {
 		String^ herramienta_menor;
 		double porcentaje_herramienta_menor;
 
-	private: void calculra_indicadores()
+	private: void calcular_indicadores()
 	{
 		total_registros = 0;
 		total_verificadas = 0;
@@ -104,6 +120,17 @@ namespace IATRACE {
 			}
 		}
 
+		if (total_registros > 0 && conteo_semana->Length > 0)
+		{
+			porcentaje_verificadas = total_verificadas * 100.0 / total_registros;
+			promedio_semana = (double)total_registros / conteo_semana->Length;
+		}
+		else
+		{
+			porcentaje_verificadas = 0;
+			promedio_semana = 0;
+		}
+
 		int indice_menor = 0;
 
 		double menor_valor = 101.0;
@@ -120,7 +147,7 @@ namespace IATRACE {
 		herramienta_menor = nombres_herramientas[indice_menor];
 		porcentaje_herramienta_menor = porcentaje_herramienta[indice_menor];
 	}
-	private: System::Void Form_Dashboard2_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) 
+	private: System::Void Form_Dashboard2_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e)
 	{
 		Graphics^ graphics = e->Graphics;
 
@@ -145,6 +172,7 @@ namespace IATRACE {
 		dibujar_marco(graphics, rectangulo_kpi_izquierdo, "Respuestas verificadas (global)", fuente_titulo);
 		dibujar_marco(graphics, rectangulo_kpi_derecho, "Promedio de consultas por semana", fuente_titulo);
 		dibujar_marco(graphics, rectangulo_izquierdo, "% verificadas por herramienta de IA", fuente_titulo);
+		dibujar_marco(graphics, rectangulo_derecho, "Evolución semanal de consultas", fuente_titulo);
 		dibujar_marco(graphics, rectangulo_abajo, "Hallazgo", fuente_titulo);
 
 		SolidBrush^ pincel_turquesa = gcnew SolidBrush(colores[1]);
@@ -153,16 +181,16 @@ namespace IATRACE {
 		String^ texto_porcentaje = String::Format("{0:F1}%", porcentaje_verificadas);
 		graphics->DrawString(texto_porcentaje, fuente_kpi, pincel_turquesa, (float)(rectangulo_kpi_izquierdo.X + 20), (float)(rectangulo_kpi_izquierdo.Y + 8));
 
-		String^ texto_detalle = String::Format("{0} de {1} consultas tienen evidencia de validacion", total_verificadas, total_registros);
+		String^ texto_detalle = String::Format("{0} de {1} consultas tienen evidencia de validación", total_verificadas, total_registros);
 		graphics->DrawString(texto_detalle, fuente_etiqueta, Brushes::Black, (float)(rectangulo_kpi_izquierdo.X + 20), (float)(rectangulo_kpi_izquierdo.Y + 70));
 
 		int ancho_barra_total = rectangulo_kpi_izquierdo.Width - 40;
 		int ancho_relleno = (int)(porcentaje_verificadas / 100.0 * ancho_barra_total);
 
-		graphics->DrawRectangle(Pens::Silver, rectangulo_kpi_izquierdo.X + 20, rectangulo_kpi_izquierdo.Y + 102, ancho_relleno, 14);
+		graphics->DrawRectangle(Pens::Silver, rectangulo_kpi_izquierdo.X + 20, rectangulo_kpi_izquierdo.Y + 102, ancho_barra_total, 14);
 		graphics->FillRectangle(pincel_turquesa, rectangulo_kpi_izquierdo.X + 20, rectangulo_kpi_izquierdo.Y + 102, ancho_relleno, 14);
 
-		String^ texto_promedio = String::Format("{0,:F1}", promedio_semana);
+		String^ texto_promedio = String::Format("{0:F1}", promedio_semana);
 		graphics->DrawString(texto_promedio, fuente_kpi, pincel_naranja, (float)(rectangulo_kpi_derecho.X + 20), (float)(rectangulo_kpi_derecho.Y + 8));
 
 		String^ texto_promedio_detalle = String::Format("consultas por semana, en promedio");
@@ -187,7 +215,7 @@ namespace IATRACE {
 			graphics->FillRectangle(pincel, x_barra, y_barra, ancho_relleno_herramienta, alto_barra);
 
 			String^ texto_barra = String::Format("{0:F0}% ({1}/{2})", porcentaje_herramienta[i], verificadas_herramienta[i], total_herramienta[i]);
-			graphics->DrawString(texto_barra, fuente_etiqueta, Brushes::Black, (float)(x_barra + ancho_maximo +8), (float)(y_barra + 4));
+			graphics->DrawString(texto_barra, fuente_etiqueta, Brushes::Black, (float)(x_barra + ancho_maximo + 8), (float)(y_barra + 4));
 		}
 
 		int n_semanas = conteo_semana->Length;
@@ -223,8 +251,34 @@ namespace IATRACE {
 
 		for (int i = 0; i < n_semanas; i++)
 		{
+			int x_punto = origen_x;
 
+			if (n_semanas > 1)
+			{
+				x_punto = origen_x + i * ancho_grafico / (n_semanas - 1);
+			}
+
+			int y_punto = origen_y - (int)((double)conteo_semana[i] / maximo_semana * alto_grafico);
+
+			if (i > 0)
+			{
+				graphics->DrawLine(lapiz_linea, x_anterior, y_anterior, x_punto, y_punto);
+			}
+
+			graphics->FillEllipse(pincel_naranja, x_punto - 4, y_punto - 4, 8, 8);
+
+			String^ etiqueta_semana = String::Format("S{0}", i + 1);
+			graphics->DrawString(etiqueta_semana, fuente_pequena, Brushes::Black, (float)(x_punto - 10), (float)(origen_y + 6));
+
+			x_anterior = x_punto;
+			y_anterior = y_punto;
 		}
+
+		String^ texto_hallazgo = String::Format("Herramienta menos verificada: {0} ({1:F0}% de sus respuestas se verificaron)", herramienta_menor, porcentaje_herramienta_menor);
+		graphics->DrawString(texto_hallazgo, fuente_hallazgo, Brushes::Indigo, (float)(rectangulo_abajo.X + 15), (float)(rectangulo_abajo.Y + 25));
+
+		String^ texto_interpretacion = "Un porcentaje bajo indica respuestas usadas sin comprobar: ahí hay más riesgo de depender de la IA sin aprender.";
+		graphics->DrawString(texto_interpretacion, fuente_etiqueta, Brushes::Black, (float)(rectangulo_abajo.X + 15), (float)(rectangulo_abajo.Y + 65));
 	}
 	private: void dibujar_marco(Graphics^ graphics, Rectangle marco, String^ titulo, System::Drawing::Font^ fuente)
 	{
@@ -238,5 +292,5 @@ namespace IATRACE {
 		graphics->FillRectangle(pincel_fondo, x, y, tamano.Width, tamano.Height);
 		graphics->DrawString(titulo, fuente, Brushes::Indigo, x, y);
 	}
-    };
+	};
 }
