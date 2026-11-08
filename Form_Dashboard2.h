@@ -127,6 +127,38 @@ namespace IATRACE {
 		System::Drawing::Font^ fuente_titulo = gcnew System::Drawing::Font("Segoe UI", 12, FontStyle::Bold);
 		System::Drawing::Font^ fuente_etiqueta = gcnew System::Drawing::Font("Segoe UI", 11);
 		System::Drawing::Font^ fuente_pequena = gcnew System::Drawing::Font("Segoe UI", 9);
+		System::Drawing::Font^ fuente_kpi = gcnew System::Drawing::Font("Segoe UI", 32, FontStyle::Bold);
+		System::Drawing::Font^ fuente_hallazgo = gcnew System::Drawing::Font("Segoe UI", 13, FontStyle::Bold);
+
+		if (total_registros == 0)
+		{
+			graphics->DrawString("Sin registros: registra o genera datos para ver las métricas.", fuente_hallazgo, Brushes::Indigo, 40.0f, 60.0f);
+			return;
+		}
+
+		Rectangle rectangulo_kpi_izquierdo = Rectangle(20, 40, 560, 130);
+		Rectangle rectangulo_kpi_derecho = Rectangle(600, 40, 560, 130);
+		Rectangle rectangulo_izquierdo = Rectangle(20, 200, 560, 330);
+		Rectangle rectangulo_derecho = Rectangle(600, 200, 560, 330);
+		Rectangle rectangulo_abajo = Rectangle(20, 560, 1140, 120);
+
+		dibujar_marco(graphics, rectangulo_kpi_izquierdo, "Respuestas verificadas (global)", fuente_titulo);
+		dibujar_marco(graphics, rectangulo_kpi_derecho, "Promedio de consultas por semana", fuente_titulo);
+		dibujar_marco(graphics, rectangulo_izquierdo, "% verificadas por herramienta de IA", fuente_titulo);
+		dibujar_marco(graphics, rectangulo_abajo, "Hallazgo", fuente_titulo);
 	}
+
+	 private: void dibujar_marco(Graphics^ graphics, Rectangle marco, String^ titulo, System::Drawing::Font^ fuente)
+	 {
+		 graphics->DrawRectangle(Pens::Silver, marco);
+
+		 SizeF tamano = graphics->MeasureString(titulo, fuente);
+		 float x = (float)(marco.X + 10);
+		 float y = marco.Y - tamano.Height / 2;
+
+		 SolidBrush^ pincel_fondo = gcnew SolidBrush(this->BackColor);
+		 graphics->FillRectangle(pincel_fondo, x, y, tamano.Width, tamano.Height);
+		 graphics->DrawString(titulo, fuente, Brushes::Indigo, x, y);
+	 }
 };
 }
