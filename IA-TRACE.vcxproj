@@ -154,6 +154,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Form_Dashboard2.resx">
+      <DependentUpon>Form_Dashboard2.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form_Menu.resx">
       <DependentUpon>Form_Menu.h</DependentUpon>
     </EmbeddedResource>

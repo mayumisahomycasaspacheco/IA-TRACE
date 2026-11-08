@@ -146,6 +146,45 @@ namespace IATRACE {
 		dibujar_marco(graphics, rectangulo_kpi_derecho, "Promedio de consultas por semana", fuente_titulo);
 		dibujar_marco(graphics, rectangulo_izquierdo, "% verificadas por herramienta de IA", fuente_titulo);
 		dibujar_marco(graphics, rectangulo_abajo, "Hallazgo", fuente_titulo);
+
+		SolidBrush^ pincel_turquesa = gcnew SolidBrush(colores[1]);
+		SolidBrush^ pincel_naranja = gcnew SolidBrush(colores[2]);
+
+		String^ texto_porcentaje = String::Format("{0:F1}%", porcentaje_verificadas);
+		graphics->DrawString(texto_porcentaje, fuente_kpi, pincel_turquesa, (float)(rectangulo_kpi_izquierdo.X + 20), (float)(rectangulo_kpi_izquierdo.Y + 8));
+
+		String^ texto_detalle = String::Format("{0} de {1} consultas tienen evidencia de validacion", total_verificadas, total_registros);
+		graphics->DrawString(texto_detalle, fuente_etiqueta, Brushes::Black, (float)(rectangulo_kpi_izquierdo.X + 20), (float)(rectangulo_kpi_izquierdo.Y + 70));
+
+		int ancho_barra_total = rectangulo_kpi_izquierdo.Width - 40;
+		int ancho_relleno = (int)(porcentaje_verificadas / 100.0 * ancho_barra_total);
+
+		graphics->DrawRectangle(Pens::Silver, rectangulo_kpi_izquierdo.X + 20, rectangulo_kpi_izquierdo.Y + 102, ancho_relleno, 14);
+		graphics->FillRectangle(pincel_turquesa, rectangulo_kpi_izquierdo.X + 20, rectangulo_kpi_izquierdo.Y + 102, ancho_relleno, 14);
+
+		String^ texto_promedio = String::Format("{0,:F1}", promedio_semana);
+		graphics->DrawString(texto_promedio, fuente_kpi, pincel_naranja, (float)(rectangulo_kpi_derecho.X + 20), (float)(rectangulo_kpi_derecho.Y + 8));
+
+		String^ texto_promedio_detalle = String::Format("consultas por semana, en promedio");
+		graphics->DrawString(texto_promedio_detalle, fuente_etiqueta, Brushes::Black, (float)(rectangulo_kpi_derecho.X + 20), (float)(rectangulo_kpi_derecho.Y + 70));
+
+		String^ texto_formula = String::Format("{0} registros / {1} semanas", total_registros, conteo_semana->Length);
+		graphics->DrawString(texto_formula, fuente_pequena, Brushes::Gray, (float)(rectangulo_kpi_derecho.X + 20), (float)(rectangulo_kpi_derecho.Y + 100));
+
+		int n_herramientas = nombres_herramientas->Length;
+		int x_barra = rectangulo_izquierdo.X + 110;
+		int ancho_maximo = 300;
+		int alto_barra = 30;
+		int separacion = 60;
+
+		for (int i = 0; i < n_herramientas; i++)
+		{
+			int y_barra = rectangulo_izquierdo.Y + 45 + i * separacion;
+			int ancho_relleno_herramienta = (int)(porcentaje_herramienta[i] / 100.0 * ancho_maximo);
+			SolidBrush^ pincel = gcnew SolidBrush(colores[i % colores->Length]);
+			graphics->DrawString(nombres_herramientas[i], fuente_etiqueta, Brushes::Black, (float)(rectangulo_izquierdo.X + 15), (float)(y_barra + 4));
+
+		}
 	}
 
 	 private: void dibujar_marco(Graphics^ graphics, Rectangle marco, String^ titulo, System::Drawing::Font^ fuente)
