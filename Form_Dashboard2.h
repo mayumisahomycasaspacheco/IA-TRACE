@@ -183,21 +183,60 @@ namespace IATRACE {
 			int ancho_relleno_herramienta = (int)(porcentaje_herramienta[i] / 100.0 * ancho_maximo);
 			SolidBrush^ pincel = gcnew SolidBrush(colores[i % colores->Length]);
 			graphics->DrawString(nombres_herramientas[i], fuente_etiqueta, Brushes::Black, (float)(rectangulo_izquierdo.X + 15), (float)(y_barra + 4));
+			graphics->DrawRectangle(Pens::Silver, x_barra, y_barra, ancho_maximo, alto_barra);
+			graphics->FillRectangle(pincel, x_barra, y_barra, ancho_relleno_herramienta, alto_barra);
+
+			String^ texto_barra = String::Format("{0:F0}% ({1}/{2})", porcentaje_herramienta[i], verificadas_herramienta[i], total_herramienta[i]);
+			graphics->DrawString(texto_barra, fuente_etiqueta, Brushes::Black, (float)(x_barra + ancho_maximo +8), (float)(y_barra + 4));
+		}
+
+		int n_semanas = conteo_semana->Length;
+		int maximo_semana = 0;
+
+		for (int i = 0; i < n_semanas; i++)
+		{
+			if (conteo_semana[i] > maximo_semana)
+			{
+				maximo_semana = conteo_semana[i];
+			}
+		}
+
+		if (maximo_semana == 0)
+		{
+			maximo_semana = 1;
+		}
+
+		int origen_x = rectangulo_derecho.X + 50;
+		int origen_y = rectangulo_derecho.Bottom - 50;
+		int ancho_grafico = rectangulo_derecho.Width - 90;
+		int alto_grafico = rectangulo_derecho.Height - 110;
+
+		graphics->DrawLine(Pens::Black, origen_x, origen_y, origen_x + ancho_grafico, origen_y);
+		graphics->DrawLine(Pens::Black, origen_x, origen_y - alto_grafico, origen_x, origen_y);
+		graphics->DrawString(maximo_semana.ToString(), fuente_pequena, Brushes::Black, (float)(origen_x - 30), (float)(origen_y - alto_grafico - 8));
+		graphics->DrawString("0", fuente_pequena, Brushes::Black, (float)(origen_x - 20), (float)(origen_y - 8));
+		graphics->DrawString("Semana del ciclo", fuente_pequena, Brushes::Gray, (float)(origen_x + ancho_grafico / 2 - 40), (float)(origen_y + 26));
+
+		Pen^ lapiz_linea = gcnew Pen(colores[1], 3);
+		int x_anterior = 0;
+		int y_anterior = 0;
+
+		for (int i = 0; i < n_semanas; i++)
+		{
 
 		}
 	}
+	private: void dibujar_marco(Graphics^ graphics, Rectangle marco, String^ titulo, System::Drawing::Font^ fuente)
+	{
+		graphics->DrawRectangle(Pens::Silver, marco);
 
-	 private: void dibujar_marco(Graphics^ graphics, Rectangle marco, String^ titulo, System::Drawing::Font^ fuente)
-	 {
-		 graphics->DrawRectangle(Pens::Silver, marco);
+		SizeF tamano = graphics->MeasureString(titulo, fuente);
+		float x = (float)(marco.X + 10);
+		float y = marco.Y - tamano.Height / 2;
 
-		 SizeF tamano = graphics->MeasureString(titulo, fuente);
-		 float x = (float)(marco.X + 10);
-		 float y = marco.Y - tamano.Height / 2;
-
-		 SolidBrush^ pincel_fondo = gcnew SolidBrush(this->BackColor);
-		 graphics->FillRectangle(pincel_fondo, x, y, tamano.Width, tamano.Height);
-		 graphics->DrawString(titulo, fuente, Brushes::Indigo, x, y);
-	 }
-};
+		SolidBrush^ pincel_fondo = gcnew SolidBrush(this->BackColor);
+		graphics->FillRectangle(pincel_fondo, x, y, tamano.Width, tamano.Height);
+		graphics->DrawString(titulo, fuente, Brushes::Indigo, x, y);
+	}
+    };
 }
