@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClCompile Include="Form_Dashboard2.cpp" />
     <ClCompile Include="Form_Menu.cpp" />
+    <ClCompile Include="Form_Registro.cpp" />
     <ClCompile Include="From_Dashboard1.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +148,9 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Form_Menu.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="Form_Registro.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="From_Dashboard1.h">
