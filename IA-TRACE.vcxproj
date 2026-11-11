@@ -144,6 +144,7 @@
     <ClCompile Include="From_Dashboard1.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bitacora.h" />
     <ClInclude Include="Form_Dashboard2.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -156,6 +157,7 @@
     <ClInclude Include="From_Dashboard1.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Registro.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Form_Dashboard2.resx">
@@ -163,6 +165,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form_Menu.resx">
       <DependentUpon>Form_Menu.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Registro.resx">
+      <DependentUpon>Form_Registro.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="From_Dashboard1.resx">
       <DependentUpon>From_Dashboard1.h</DependentUpon>

@@ -89,7 +89,7 @@ public:
 		this->categoria = categoria;
 	}
 
-	int setId(int id)
+	int setid(int id)
 	{
 		this->id = id;
 		return id;
