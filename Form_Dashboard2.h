@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Bitacora.h"
 namespace IATRACE {
 
 	using namespace System;
@@ -15,16 +15,10 @@ namespace IATRACE {
 	public ref class Form_Dashboard2 : public System::Windows::Forms::Form
 	{
 	public:
-		Form_Dashboard2(void)
+		Form_Dashboard2(Bitacora* gestorBitacora)
 		{
 			InitializeComponent();
-			//Datos de prueba
-
-			nombres_herramientas = gcnew array<String^> {"ChatGPT", "Claude", "Copilot", "Gemini"};
-			total_herramienta = gcnew array<int> {52, 38, 29, 23};
-			verificadas_herramienta = gcnew array<int> {44, 33, 15, 17};
-
-			conteo_semana = gcnew array<int> {6, 8, 10, 12, 14, 13, 15, 16, 14, 13, 11, 10};
+			gestor = gestorBitacora;
 
 			colores = gcnew array<Color>{
 				Color::FromArgb(37, 12, 82),
@@ -55,7 +49,7 @@ namespace IATRACE {
 		/// Variable del diseñador necesaria.
 		/// </summary>
 		System::ComponentModel::Container^ components;
-
+		Bitacora* gestor;
 #pragma region Windows Form Designer generated code
 		/// <summary>
 		/// Método necesario para admitir el Diseñador. No se puede modificar
@@ -74,7 +68,7 @@ namespace IATRACE {
 			this->MaximizeBox = false;
 			this->Name = L"Form_Dashboard2";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
-			this->Text = L"IA-TRACE - Dashboard 2: Métricas e Indicadores";
+			this->Text = L"IA-TRACE - Dashboard 2: Metrics and Indicators";
 			this->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &Form_Dashboard2::Form_Dashboard2_Paint);
 			this->ResumeLayout(false);
 
@@ -96,45 +90,132 @@ namespace IATRACE {
 		String^ herramienta_menor;
 		double porcentaje_herramienta_menor;
 
+	private:
 	private: void calcular_indicadores()
 	{
 		total_registros = 0;
 		total_verificadas = 0;
+		porcentaje_verificadas = 0;
+		promedio_semana = 0;
+		herramienta_menor = "";
+		porcentaje_herramienta_menor = 0;
 
-		int n = nombres_herramientas->Length;
+		int cantidad = gestor->obtener_cantidad();
+
+		// El curso no permite List<T>: uso arreglos con espacio para "cantidad"
+		// elementos y un contador manual (n_nombres, n_fechas) de los que ya se usaron.
+		array<String^>^ nombres = gcnew array<String^>(cantidad);
+		array<int>^ totales = gcnew array<int>(cantidad);
+		array<int>^ verificadas = gcnew array<int>(cantidad);
+		array<double>^ segundos = gcnew array<double>(cantidad);
+		int n_nombres = 0;
+		int n_fechas = 0;
+
+		for (int i = 0; i < cantidad; i++)
+		{
+			Registro* r = gestor->obtener_por_indice(i);
+			if (r == nullptr) continue;
+
+			String^ herramienta = gcnew String(r->getherramienta_IA().c_str());
+			bool verificada = (r->getcomo_se_valido() == "Yes");
+
+			// Buscar la herramienta recorriendo las que ya se guardaron
+			int idx = -1;
+			for (int j = 0; j < n_nombres; j++)
+			{
+				if (nombres[j] == herramienta)
+				{
+					idx = j;
+					break;
+				}
+			}
+			if (idx < 0)
+			{
+				idx = n_nombres;
+				nombres[idx] = herramienta;
+				n_nombres++;
+			}
+			totales[idx]++;
+			if (verificada)
+			{
+				verificadas[idx]++;
+				total_verificadas++;
+			}
+			total_registros++;
+
+			std::string f = r->getfecha();
+			if (f.length() >= 10)
+			{
+				std::tm t = {};
+				t.tm_mday = std::stoi(f.substr(0, 2));
+				t.tm_mon = std::stoi(f.substr(3, 2)) - 1;
+				t.tm_year = std::stoi(f.substr(6, 4)) - 1900;
+				t.tm_hour = 12;
+				segundos[n_fechas] = (double)std::mktime(&t);
+				n_fechas++;
+			}
+		}
+
+		if (total_registros == 0)
+		{
+			nombres_herramientas = gcnew array<String^>(0);
+			total_herramienta = gcnew array<int>(0);
+			verificadas_herramienta = gcnew array<int>(0);
+			porcentaje_herramienta = gcnew array<double>(0);
+			conteo_semana = gcnew array<int>(0);
+			return;
+		}
+
+		// Pasar a arreglos del tamano exacto
+		int n = n_nombres;
+		nombres_herramientas = gcnew array<String^>(n);
+		total_herramienta = gcnew array<int>(n);
+		verificadas_herramienta = gcnew array<int>(n);
 		porcentaje_herramienta = gcnew array<double>(n);
 
 		for (int i = 0; i < n; i++)
 		{
-			total_registros += total_herramienta[i];
-			total_verificadas += verificadas_herramienta[i];
-
-			if (total_herramienta[i] > 0)
-			{
-				porcentaje_herramienta[i] = verificadas_herramienta[i] * 100.0 / total_herramienta[i];
-			}
-
-			else
-			{
-				porcentaje_herramienta[i] = 0;
-			}
+			nombres_herramientas[i] = nombres[i];
+			total_herramienta[i] = totales[i];
+			verificadas_herramienta[i] = verificadas[i];
+			porcentaje_herramienta[i] = (total_herramienta[i] > 0)
+				? verificadas_herramienta[i] * 100.0 / total_herramienta[i]
+				: 0;
 		}
 
-		if (total_registros > 0 && conteo_semana->Length > 0)
+		// ---- consultas por semana ----
+		if (n_fechas > 0)
 		{
-			porcentaje_verificadas = total_verificadas * 100.0 / total_registros;
-			promedio_semana = (double)total_registros / conteo_semana->Length;
+			double minimo = segundos[0];
+			for (int i = 1; i < n_fechas; i++)
+				if (segundos[i] < minimo) minimo = segundos[i];
+
+			int max_semana = 0;
+			array<int>^ semana_de = gcnew array<int>(n_fechas);
+			for (int i = 0; i < n_fechas; i++)
+			{
+				int dias = (int)((segundos[i] - minimo) / 86400.0 + 0.5);
+				semana_de[i] = dias / 7;
+				if (semana_de[i] > max_semana) max_semana = semana_de[i];
+			}
+
+			conteo_semana = gcnew array<int>(max_semana + 1);
+			for (int i = 0; i < n_fechas; i++)
+				conteo_semana[semana_de[i]]++;
 		}
 		else
 		{
-			porcentaje_verificadas = 0;
-			promedio_semana = 0;
+			conteo_semana = gcnew array<int>(0);
 		}
 
+		// ---- KPIs ----
+		porcentaje_verificadas = total_verificadas * 100.0 / total_registros;
+		if (conteo_semana->Length > 0)
+			promedio_semana = (double)total_registros / conteo_semana->Length;
+
+		// ---- herramienta menos verificada ----
 		int indice_menor = 0;
-
 		double menor_valor = 101.0;
-
 		for (int i = 0; i < n; i++)
 		{
 			if (total_herramienta[i] > 0 && porcentaje_herramienta[i] < menor_valor)
@@ -143,7 +224,6 @@ namespace IATRACE {
 				indice_menor = i;
 			}
 		}
-
 		herramienta_menor = nombres_herramientas[indice_menor];
 		porcentaje_herramienta_menor = porcentaje_herramienta[indice_menor];
 	}
@@ -159,21 +239,21 @@ namespace IATRACE {
 
 		if (total_registros == 0)
 		{
-			graphics->DrawString("Sin registros: registra o genera datos para ver las métricas.", fuente_hallazgo, Brushes::Indigo, 40.0f, 60.0f);
+			graphics->DrawString("No records: register or generate data to see the metrics.", fuente_hallazgo, Brushes::Indigo, 40.0f, 60.0f);
 			return;
 		}
 
-		Rectangle rectangulo_kpi_izquierdo = Rectangle(20, 40, 560, 130);
-		Rectangle rectangulo_kpi_derecho = Rectangle(600, 40, 560, 130);
-		Rectangle rectangulo_izquierdo = Rectangle(20, 200, 560, 330);
-		Rectangle rectangulo_derecho = Rectangle(600, 200, 560, 330);
-		Rectangle rectangulo_abajo = Rectangle(20, 560, 1140, 120);
+		IATRACE::Rectangle rectangulo_kpi_izquierdo = IATRACE::Rectangle(20, 40, 560, 130);
+		IATRACE::Rectangle rectangulo_kpi_derecho = IATRACE::Rectangle(600, 40, 560, 130);
+		IATRACE::Rectangle rectangulo_izquierdo = IATRACE::Rectangle(20, 200, 560, 330);
+		IATRACE::Rectangle rectangulo_derecho = IATRACE::Rectangle(600, 200, 560, 330);
+		IATRACE::Rectangle rectangulo_abajo = IATRACE::Rectangle(20, 560, 1140, 120);
 
-		dibujar_marco(graphics, rectangulo_kpi_izquierdo, "Respuestas verificadas (global)", fuente_titulo);
-		dibujar_marco(graphics, rectangulo_kpi_derecho, "Promedio de consultas por semana", fuente_titulo);
-		dibujar_marco(graphics, rectangulo_izquierdo, "% verificadas por herramienta de IA", fuente_titulo);
-		dibujar_marco(graphics, rectangulo_derecho, "Evolución semanal de consultas", fuente_titulo);
-		dibujar_marco(graphics, rectangulo_abajo, "Hallazgo", fuente_titulo);
+		dibujar_marco(graphics, rectangulo_kpi_izquierdo, "Verified answers (overall)", fuente_titulo);
+		dibujar_marco(graphics, rectangulo_kpi_derecho, "Average queries per week", fuente_titulo);
+		dibujar_marco(graphics, rectangulo_izquierdo, "% verified by AI tool", fuente_titulo);
+		dibujar_marco(graphics, rectangulo_derecho, "Weekly query trend", fuente_titulo);
+		dibujar_marco(graphics, rectangulo_abajo, "Finding", fuente_titulo);
 
 		SolidBrush^ pincel_turquesa = gcnew SolidBrush(colores[1]);
 		SolidBrush^ pincel_naranja = gcnew SolidBrush(colores[2]);
@@ -181,7 +261,7 @@ namespace IATRACE {
 		String^ texto_porcentaje = String::Format("{0:F1}%", porcentaje_verificadas);
 		graphics->DrawString(texto_porcentaje, fuente_kpi, pincel_turquesa, (float)(rectangulo_kpi_izquierdo.X + 20), (float)(rectangulo_kpi_izquierdo.Y + 8));
 
-		String^ texto_detalle = String::Format("{0} de {1} consultas tienen evidencia de validación", total_verificadas, total_registros);
+		String^ texto_detalle = String::Format("{0} of {1} queries have verification evidence", total_verificadas, total_registros);
 		graphics->DrawString(texto_detalle, fuente_etiqueta, Brushes::Black, (float)(rectangulo_kpi_izquierdo.X + 20), (float)(rectangulo_kpi_izquierdo.Y + 70));
 
 		int ancho_barra_total = rectangulo_kpi_izquierdo.Width - 40;
@@ -193,17 +273,17 @@ namespace IATRACE {
 		String^ texto_promedio = String::Format("{0:F1}", promedio_semana);
 		graphics->DrawString(texto_promedio, fuente_kpi, pincel_naranja, (float)(rectangulo_kpi_derecho.X + 20), (float)(rectangulo_kpi_derecho.Y + 8));
 
-		String^ texto_promedio_detalle = String::Format("consultas por semana, en promedio");
+		String^ texto_promedio_detalle = String::Format("queries per week, on average");
 		graphics->DrawString(texto_promedio_detalle, fuente_etiqueta, Brushes::Black, (float)(rectangulo_kpi_derecho.X + 20), (float)(rectangulo_kpi_derecho.Y + 70));
 
-		String^ texto_formula = String::Format("{0} registros / {1} semanas", total_registros, conteo_semana->Length);
+		String^ texto_formula = String::Format("{0} records / {1} weeks", total_registros, conteo_semana->Length);
 		graphics->DrawString(texto_formula, fuente_pequena, Brushes::Gray, (float)(rectangulo_kpi_derecho.X + 20), (float)(rectangulo_kpi_derecho.Y + 100));
 
 		int n_herramientas = nombres_herramientas->Length;
 		int x_barra = rectangulo_izquierdo.X + 110;
 		int ancho_maximo = 300;
-		int alto_barra = 30;
-		int separacion = 60;
+		int alto_barra = 28;
+		int separacion = Math::Min(60, (rectangulo_izquierdo.Height - 60) / Math::Max(1, n_herramientas));
 
 		for (int i = 0; i < n_herramientas; i++)
 		{
@@ -243,7 +323,7 @@ namespace IATRACE {
 		graphics->DrawLine(Pens::Black, origen_x, origen_y - alto_grafico, origen_x, origen_y);
 		graphics->DrawString(maximo_semana.ToString(), fuente_pequena, Brushes::Black, (float)(origen_x - 30), (float)(origen_y - alto_grafico - 8));
 		graphics->DrawString("0", fuente_pequena, Brushes::Black, (float)(origen_x - 20), (float)(origen_y - 8));
-		graphics->DrawString("Semana del ciclo", fuente_pequena, Brushes::Gray, (float)(origen_x + ancho_grafico / 2 - 40), (float)(origen_y + 26));
+		graphics->DrawString("Week of the cycle", fuente_pequena, Brushes::Gray, (float)(origen_x + ancho_grafico / 2 - 40), (float)(origen_y + 26));
 
 		Pen^ lapiz_linea = gcnew Pen(colores[1], 3);
 		int x_anterior = 0;
@@ -267,20 +347,20 @@ namespace IATRACE {
 
 			graphics->FillEllipse(pincel_naranja, x_punto - 4, y_punto - 4, 8, 8);
 
-			String^ etiqueta_semana = String::Format("S{0}", i + 1);
+			String^ etiqueta_semana = String::Format("W{0}", i + 1);
 			graphics->DrawString(etiqueta_semana, fuente_pequena, Brushes::Black, (float)(x_punto - 10), (float)(origen_y + 6));
 
 			x_anterior = x_punto;
 			y_anterior = y_punto;
 		}
 
-		String^ texto_hallazgo = String::Format("Herramienta menos verificada: {0} ({1:F0}% de sus respuestas se verificaron)", herramienta_menor, porcentaje_herramienta_menor);
+		String^ texto_hallazgo = String::Format("Least verified tool: {0} ({1:F0}% of its answers were verified)", herramienta_menor, porcentaje_herramienta_menor);
 		graphics->DrawString(texto_hallazgo, fuente_hallazgo, Brushes::Indigo, (float)(rectangulo_abajo.X + 15), (float)(rectangulo_abajo.Y + 25));
 
-		String^ texto_interpretacion = "Un porcentaje bajo indica respuestas usadas sin comprobar: ahí hay más riesgo de depender de la IA sin aprender.";
+		String^ texto_interpretacion = "A low percentage means answers were used without checking them: there is a higher risk of relying on AI without learning.";
 		graphics->DrawString(texto_interpretacion, fuente_etiqueta, Brushes::Black, (float)(rectangulo_abajo.X + 15), (float)(rectangulo_abajo.Y + 65));
 	}
-	private: void dibujar_marco(Graphics^ graphics, Rectangle marco, String^ titulo, System::Drawing::Font^ fuente)
+	private: void dibujar_marco(Graphics^ graphics, IATRACE::Rectangle marco, String^ titulo, System::Drawing::Font^ fuente)
 	{
 		graphics->DrawRectangle(Pens::Silver, marco);
 
