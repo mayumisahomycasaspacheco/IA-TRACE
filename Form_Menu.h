@@ -197,7 +197,7 @@ private: System::Void button_registro_Click(System::Object^ sender, System::Even
 
 private: System::Void button_dashboard1_Click(System::Object^ sender, System::EventArgs^ e)
 {
-	From_Dashboard1^ ventana = gcnew From_Dashboard1();
+	From_Dashboard1^ ventana = gcnew From_Dashboard1(gestor);
 	ventana->ShowDialog();
 }
 private: System::Void button_dashboard2_Click(System::Object^ sender, System::EventArgs^ e) 
