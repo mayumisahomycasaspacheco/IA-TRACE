@@ -44,7 +44,7 @@ namespace IATRACE {
 
 	private: System::Windows::Forms::Button^ button_dashboard2;
 
-	private: System::Windows::Forms::Button^ button_generar;
+
 	private: System::Windows::Forms::Button^ button_instrucciones;
 
 	private: System::Windows::Forms::Button^ button_salir;
@@ -71,7 +71,6 @@ namespace IATRACE {
 			this->button_registro = (gcnew System::Windows::Forms::Button());
 			this->button_dashboard1 = (gcnew System::Windows::Forms::Button());
 			this->button_dashboard2 = (gcnew System::Windows::Forms::Button());
-			this->button_generar = (gcnew System::Windows::Forms::Button());
 			this->button_instrucciones = (gcnew System::Windows::Forms::Button());
 			this->button_salir = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
@@ -86,7 +85,7 @@ namespace IATRACE {
 			this->button_registro->Font = (gcnew System::Drawing::Font(L"Consolas", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button_registro->ForeColor = System::Drawing::Color::PaleGoldenrod;
-			this->button_registro->Location = System::Drawing::Point(57, 154);
+			this->button_registro->Location = System::Drawing::Point(55, 189);
 			this->button_registro->Name = L"button_registro";
 			this->button_registro->Size = System::Drawing::Size(325, 53);
 			this->button_registro->TabIndex = 0;
@@ -104,7 +103,7 @@ namespace IATRACE {
 			this->button_dashboard1->Font = (gcnew System::Drawing::Font(L"Consolas", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button_dashboard1->ForeColor = System::Drawing::Color::PaleGoldenrod;
-			this->button_dashboard1->Location = System::Drawing::Point(57, 213);
+			this->button_dashboard1->Location = System::Drawing::Point(55, 248);
 			this->button_dashboard1->Name = L"button_dashboard1";
 			this->button_dashboard1->Size = System::Drawing::Size(325, 53);
 			this->button_dashboard1->TabIndex = 2;
@@ -122,31 +121,13 @@ namespace IATRACE {
 			this->button_dashboard2->Font = (gcnew System::Drawing::Font(L"Consolas", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button_dashboard2->ForeColor = System::Drawing::Color::PaleGoldenrod;
-			this->button_dashboard2->Location = System::Drawing::Point(57, 272);
+			this->button_dashboard2->Location = System::Drawing::Point(55, 307);
 			this->button_dashboard2->Name = L"button_dashboard2";
 			this->button_dashboard2->Size = System::Drawing::Size(325, 53);
 			this->button_dashboard2->TabIndex = 3;
 			this->button_dashboard2->Text = L"Dashboard 2";
 			this->button_dashboard2->UseVisualStyleBackColor = false;
 			this->button_dashboard2->Click += gcnew System::EventHandler(this, &Form_Menu::button_dashboard2_Click);
-			// 
-			// button_generar
-			// 
-			this->button_generar->BackColor = System::Drawing::Color::Black;
-			this->button_generar->FlatAppearance->BorderColor = System::Drawing::Color::Maroon;
-			this->button_generar->FlatAppearance->MouseDownBackColor = System::Drawing::Color::Maroon;
-			this->button_generar->FlatAppearance->MouseOverBackColor = System::Drawing::Color::Indigo;
-			this->button_generar->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->button_generar->Font = (gcnew System::Drawing::Font(L"Consolas", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->button_generar->ForeColor = System::Drawing::Color::PaleGoldenrod;
-			this->button_generar->Location = System::Drawing::Point(57, 331);
-			this->button_generar->Name = L"button_generar";
-			this->button_generar->Size = System::Drawing::Size(325, 53);
-			this->button_generar->TabIndex = 5;
-			this->button_generar->Text = L"Generar datos de prueba";
-			this->button_generar->UseVisualStyleBackColor = false;
-			this->button_generar->Click += gcnew System::EventHandler(this, &Form_Menu::button_generar_Click);
 			// 
 			// button_instrucciones
 			// 
@@ -158,7 +139,7 @@ namespace IATRACE {
 			this->button_instrucciones->Font = (gcnew System::Drawing::Font(L"Consolas", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button_instrucciones->ForeColor = System::Drawing::Color::PaleGoldenrod;
-			this->button_instrucciones->Location = System::Drawing::Point(57, 390);
+			this->button_instrucciones->Location = System::Drawing::Point(55, 366);
 			this->button_instrucciones->Name = L"button_instrucciones";
 			this->button_instrucciones->Size = System::Drawing::Size(325, 53);
 			this->button_instrucciones->TabIndex = 6;
@@ -176,7 +157,7 @@ namespace IATRACE {
 			this->button_salir->Font = (gcnew System::Drawing::Font(L"Consolas", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button_salir->ForeColor = System::Drawing::Color::PaleGoldenrod;
-			this->button_salir->Location = System::Drawing::Point(57, 449);
+			this->button_salir->Location = System::Drawing::Point(55, 425);
 			this->button_salir->Name = L"button_salir";
 			this->button_salir->Size = System::Drawing::Size(325, 53);
 			this->button_salir->TabIndex = 8;
@@ -192,7 +173,6 @@ namespace IATRACE {
 			this->ClientSize = System::Drawing::Size(1162, 673);
 			this->Controls->Add(this->button_salir);
 			this->Controls->Add(this->button_instrucciones);
-			this->Controls->Add(this->button_generar);
 			this->Controls->Add(this->button_dashboard2);
 			this->Controls->Add(this->button_dashboard1);
 			this->Controls->Add(this->button_registro);

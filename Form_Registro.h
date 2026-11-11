@@ -65,12 +65,6 @@ namespace GameJam {
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ Herramienta;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ queConsultamos;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ Validado;
-	private: System::Windows::Forms::DataGridViewTextBoxColumn^ Number;
-	private: System::Windows::Forms::DataGridViewTextBoxColumn^ Date;
-	private: System::Windows::Forms::DataGridViewTextBoxColumn^ Course;
-	private: System::Windows::Forms::DataGridViewTextBoxColumn^ Category;
-	private: System::Windows::Forms::DataGridViewTextBoxColumn^ Tool;
-	private: System::Windows::Forms::DataGridViewTextBoxColumn^ Validate;
 
 	protected:
 
@@ -90,7 +84,7 @@ namespace GameJam {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::Windows::Forms::DataGridViewCellStyle^ dataGridViewCellStyle1 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^ dataGridViewCellStyle4 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
 			this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
 			this->comboBox2 = (gcnew System::Windows::Forms::ComboBox());
 			this->comboBox3 = (gcnew System::Windows::Forms::ComboBox());
@@ -100,13 +94,13 @@ namespace GameJam {
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
-			this->Number = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->Date = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->Course = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->Category = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->Tool = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->Numero = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->Fecha = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->Curso = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->Categoria = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->Herramienta = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->queConsultamos = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->Validate = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->Validado = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->button3 = (gcnew System::Windows::Forms::Button());
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->label5 = (gcnew System::Windows::Forms::Label());
@@ -123,8 +117,8 @@ namespace GameJam {
 				static_cast<System::Byte>(0)));
 			this->comboBox1->FormattingEnabled = true;
 			this->comboBox1->Items->AddRange(gcnew cli::array< System::Object^  >(6) {
-				L"Todos", L"Algoritmos", L"Matematica", L"Fisica",
-					L"Lenguaje", L"Otros"
+				L"All", L"Algorithms", L"Mathematics", L"Physics",
+					L"Language", L"Other"
 			});
 			this->comboBox1->Location = System::Drawing::Point(61, 42);
 			this->comboBox1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
@@ -139,9 +133,9 @@ namespace GameJam {
 			this->comboBox2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->comboBox2->FormattingEnabled = true;
-			this->comboBox2->Items->AddRange(gcnew cli::array< System::Object^  >(9) {
-				L"Todos    ", L"Tarea", L"Examen", L"LB1", L"EA1",
-					L"Reto", L"Proyecto Trabajo", L"Teoria Consulta Conceptual", L"Depuracion Errores"
+			this->comboBox2->Items->AddRange(gcnew cli::array< System::Object^  >(10) {
+				L"All", L"Task", L"Exam", L"LB1", L"EA1",
+					L"Challenge", L"Project", L"Theory", L"Debugging", L"Other"
 			});
 			this->comboBox2->Location = System::Drawing::Point(305, 42);
 			this->comboBox2->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
@@ -156,7 +150,7 @@ namespace GameJam {
 				static_cast<System::Byte>(0)));
 			this->comboBox3->FormattingEnabled = true;
 			this->comboBox3->Items->AddRange(gcnew cli::array< System::Object^  >(7) {
-				L"Todos", L"ChatGPT", L"Gemini", L"Claude", L"DeepSeak",
+				L"All", L"ChatGPT", L"Gemini", L"Claude", L"DeepSeek",
 					L"Grok", L"Copilot"
 			});
 			this->comboBox3->Location = System::Drawing::Point(551, 42);
@@ -210,12 +204,12 @@ namespace GameJam {
 			this->button1->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->button1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button1->Location = System::Drawing::Point(809, 36);
+			this->button1->Location = System::Drawing::Point(789, 28);
 			this->button1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(131, 38);
 			this->button1->TabIndex = 6;
-			this->button1->Text = L"Look";
+			this->button1->Text = L"Search";
 			this->button1->UseVisualStyleBackColor = false;
 			this->button1->Click += gcnew System::EventHandler(this, &Form_Registro::button1_Click);
 			// 
@@ -227,31 +221,31 @@ namespace GameJam {
 			this->button2->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->button2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button2->Location = System::Drawing::Point(998, 36);
+			this->button2->Location = System::Drawing::Point(973, 28);
 			this->button2->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->button2->Name = L"button2";
 			this->button2->Size = System::Drawing::Size(131, 39);
 			this->button2->TabIndex = 7;
-			this->button2->Text = L"Clean";
+			this->button2->Text = L"Clear";
 			this->button2->UseVisualStyleBackColor = false;
 			this->button2->Click += gcnew System::EventHandler(this, &Form_Registro::button2_Click);
 			// 
 			// dataGridView1
 			// 
 			this->dataGridView1->BackgroundColor = System::Drawing::SystemColors::Window;
-			dataGridViewCellStyle1->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle1->BackColor = System::Drawing::Color::Indigo;
-			dataGridViewCellStyle1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			dataGridViewCellStyle4->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle4->BackColor = System::Drawing::Color::Indigo;
+			dataGridViewCellStyle4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			dataGridViewCellStyle1->ForeColor = System::Drawing::SystemColors::InactiveBorder;
-			dataGridViewCellStyle1->SelectionBackColor = System::Drawing::SystemColors::ActiveCaption;
-			dataGridViewCellStyle1->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle1->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->dataGridView1->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle4->ForeColor = System::Drawing::SystemColors::InactiveBorder;
+			dataGridViewCellStyle4->SelectionBackColor = System::Drawing::SystemColors::ActiveCaption;
+			dataGridViewCellStyle4->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle4->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->dataGridView1->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
 			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->dataGridView1->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(7) {
-				this->Number,
-					this->Date, this->Course, this->Category, this->Tool, this->queConsultamos, this->Validate
+				this->Numero,
+					this->Fecha, this->Curso, this->Categoria, this->Herramienta, this->queConsultamos, this->Validado
 			});
 			this->dataGridView1->EnableHeadersVisualStyles = false;
 			this->dataGridView1->GridColor = System::Drawing::SystemColors::InactiveCaptionText;
@@ -265,40 +259,40 @@ namespace GameJam {
 			this->dataGridView1->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Form_Registro::dataGridView1_CellContentClick);
 			this->dataGridView1->CellContentDoubleClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Form_Registro::dataGridView1_CellContentDoubleClick);
 			// 
-			// Number
+			// Numero
 			// 
-			this->Number->HeaderText = L"#";
-			this->Number->MinimumWidth = 6;
-			this->Number->Name = L"Number";
-			this->Number->Width = 30;
+			this->Numero->HeaderText = L"#";
+			this->Numero->MinimumWidth = 6;
+			this->Numero->Name = L"Number";
+			this->Numero->Width = 30;
 			// 
-			// Date
+			// Fecha
 			// 
-			this->Date->HeaderText = L"Date";
-			this->Date->MinimumWidth = 6;
-			this->Date->Name = L"Date";
-			this->Date->Width = 125;
+			this->Fecha->HeaderText = L"Date";
+			this->Fecha->MinimumWidth = 6;
+			this->Fecha->Name = L"Date";
+			this->Fecha->Width = 125;
 			// 
-			// Course
+			// Curso
 			// 
-			this->Course->HeaderText = L"Course";
-			this->Course->MinimumWidth = 6;
-			this->Course->Name = L"Course";
-			this->Course->Width = 125;
+			this->Curso->HeaderText = L"Course";
+			this->Curso->MinimumWidth = 6;
+			this->Curso->Name = L"Course";
+			this->Curso->Width = 125;
 			// 
-			// Category
+			// Categoria
 			// 
-			this->Category->HeaderText = L"Category";
-			this->Category->MinimumWidth = 6;
-			this->Category->Name = L"Category";
-			this->Category->Width = 125;
+			this->Categoria->HeaderText = L"Category";
+			this->Categoria->MinimumWidth = 6;
+			this->Categoria->Name = L"Category";
+			this->Categoria->Width = 125;
 			// 
-			// Tool
+			// Herramienta
 			// 
-			this->Tool->HeaderText = L"Tool";
-			this->Tool->MinimumWidth = 6;
-			this->Tool->Name = L"Tool";
-			this->Tool->Width = 125;
+			this->Herramienta->HeaderText = L"Tool";
+			this->Herramienta->MinimumWidth = 6;
+			this->Herramienta->Name = L"Tool";
+			this->Herramienta->Width = 125;
 			// 
 			// queConsultamos
 			// 
@@ -307,12 +301,12 @@ namespace GameJam {
 			this->queConsultamos->Name = L"queConsultamos";
 			this->queConsultamos->Width = 125;
 			// 
-			// Validate
+			// Validado
 			// 
-			this->Validate->HeaderText = L"Validate";
-			this->Validate->MinimumWidth = 6;
-			this->Validate->Name = L"Validate";
-			this->Validate->Width = 125;
+			this->Validado->HeaderText = L"Verified";
+			this->Validado->MinimumWidth = 6;
+			this->Validado->Name = L"Validate";
+			this->Validado->Width = 125;
 			// 
 			// button3
 			// 
@@ -322,12 +316,12 @@ namespace GameJam {
 			this->button3->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->button3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button3->Location = System::Drawing::Point(920, 629);
+			this->button3->Location = System::Drawing::Point(944, 622);
 			this->button3->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->button3->Name = L"button3";
-			this->button3->Size = System::Drawing::Size(209, 38);
+			this->button3->Size = System::Drawing::Size(209, 53);
 			this->button3->TabIndex = 9;
-			this->button3->Text = L"Gonna Dashboards ->";
+			this->button3->Text = L"Dashboards ->";
 			this->button3->UseVisualStyleBackColor = false;
 			// 
 			// label4
@@ -338,7 +332,7 @@ namespace GameJam {
 			this->label4->ForeColor = System::Drawing::Color::Indigo;
 			this->label4->Location = System::Drawing::Point(67, 640);
 			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(113, 20);
+			this->label4->Size = System::Drawing::Size(145, 20);
 			this->label4->TabIndex = 10;
 			this->label4->Text = L"Total records:";
 			// 
@@ -374,7 +368,7 @@ namespace GameJam {
 			this->label7->ForeColor = System::Drawing::Color::Green;
 			this->label7->Location = System::Drawing::Point(368, 640);
 			this->label7->Name = L"label7";
-			this->label7->Size = System::Drawing::Size(71, 20);
+			this->label7->Size = System::Drawing::Size(98, 20);
 			this->label7->TabIndex = 12;
 			this->label7->Text = L"Verified:";
 			// 
@@ -398,11 +392,11 @@ namespace GameJam {
 			this->label9->ForeColor = System::Drawing::Color::Red;
 			this->label9->Location = System::Drawing::Point(591, 640);
 			this->label9->Name = L"label9";
-			this->label9->Size = System::Drawing::Size(99, 20);
+			this->label9->Size = System::Drawing::Size(121, 20);
 			this->label9->TabIndex = 14;
 			this->label9->Text = L"Not verified:";
 			// 
-			// Form_Registro
+			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
@@ -425,7 +419,7 @@ namespace GameJam {
 			this->Controls->Add(this->comboBox1);
 			this->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->Name = L"Form_Registro";
-			this->Text = L"Form_Registro";
+			this->Text = L"Details and Analysis";
 			this->Load += gcnew System::EventHandler(this, &Form_Registro::Form_Registro_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->EndInit();
 			this->ResumeLayout(false);
@@ -443,6 +437,9 @@ namespace GameJam {
 		case LB1: return "LB1";
 		case EA1: return "EA1";
 		case Reto: return "Challenge";
+		case Proyecto: return "Project";
+		case Teoria: return "Theory";
+		case Depuracion: return "Debugging";
 		default: return "Other";
 		}
 	}
@@ -463,8 +460,8 @@ namespace GameJam {
 		filtroHerramienta = comboBox3->SelectedItem->ToString()->Trim();
 
 
-		int tamaño = gestor->obtener_cantidad();
-		for (int i = 0; i < tamaño; i++) {
+		int cantidad_registros = gestor->obtener_cantidad();
+		for (int i = 0; i < cantidad_registros; i++) {
 
 			Registro* registro = gestor->obtener_por_indice(i);
 			if (registro == nullptr) continue;
@@ -489,7 +486,7 @@ namespace GameJam {
 			String^ herramienta = msclr::interop::marshal_as<String^>(registro->getherramienta_IA());
 			String^ validadoNativo = msclr::interop::marshal_as<String^>(registro->getcomo_se_valido());
 			String^ textoValidado;
-			if (validadoNativo->Equals("SI")) {
+			if (validadoNativo->Equals("Yes")) {
 				textoValidado = "Verificado";
 			}
 			else {
@@ -512,13 +509,13 @@ namespace GameJam {
 			//	coincideHerramienta = true;
 			//}
 
-			if (filtroCurso->Equals("Todos") || curso->Equals(filtroCurso)) {
+			if (filtroCurso->Equals("All") || curso->Equals(filtroCurso)) {
 				coincideCurso = true;
 			}
-			if (filtroCategoria->Equals("Todos") || categoria->Equals(filtroCategoria)) {
+			if (filtroCategoria->Equals("All") || categoria->Equals(filtroCategoria)) {
 				coincideCategoria = true;
 			}
-			if (filtroHerramienta->Equals("Todos") || herramienta->Equals(filtroHerramienta)) {
+			if (filtroHerramienta->Equals("All") || herramienta->Equals(filtroHerramienta)) {
 				coincideHerramienta = true;
 			}
 
@@ -566,7 +563,6 @@ namespace GameJam {
 		comboBox2->SelectedIndex = 0;
 		comboBox3->SelectedIndex = 0;
 		CargarDatos();
-		MessageBox::Show("Tamaño del gestor: " + gestor->obtener_cantidad().ToString(), "Debug");
 	}
 	private: System::Void dataGridView1_CellContentDoubleClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
 
@@ -575,5 +571,5 @@ namespace GameJam {
 	}
 	private: System::Void label3_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
-};
+	};
 }

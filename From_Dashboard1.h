@@ -1,4 +1,6 @@
 #pragma once
+#include "Bitacora.h"
+#include "Registro.h"
 
 namespace IATRACE {
 
@@ -15,25 +17,20 @@ namespace IATRACE {
 	public ref class From_Dashboard1 : public System::Windows::Forms::Form
 	{
 	public:
-		From_Dashboard1(void)
+		From_Dashboard1(Bitacora* gestorC)
 		{
 			InitializeComponent();
 
-			nombres_categoria = gcnew array<String^> {"Tarea", "LB1", "Reto", "Examen", "Teoria", "Errores"};
-			conteo_categoria = gcnew array<int> {38, 22, 30, 18, 26, 14};
+			gestor = gestorC;
 
-			nombres_curso = gcnew array<String^> {"Algoritmos", "Matematica", "Fisica", "Lenguaje", "Otros"};
-			conteo_curso = gcnew array<int> {41, 23, 19, 11, 6};
+			nombres_categoria = gcnew array<String^> {"Task", "Exam", "LB1", "EA1", "Challengue", "Project", "Theory", "Debugging", "Other"};
+			conteo_categoria = gcnew array<int>(9);
 
-			nombres_mes = gcnew array<String^> {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
-			conteo_mes = gcnew array<int> {0, 0, 0, 0, 0, 0, 0, 20, 52, 38, 25, 10};
+			nombres_curso = gcnew array<String^> {"Algorithms", "Mathematics", "Physics", "Language", "Other"};
+			conteo_curso = gcnew array<int>(5);
 
-			total_curso = 0;
-
-			for (int i = 0; i < conteo_curso->Length; i++)
-			{
-				total_curso += conteo_curso[i];
-			}
+			nombres_mes = gcnew array<String^> {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+			conteo_mes = gcnew array<int>(12);
 
 			colores = gcnew array<Color> {
 				Color::FromArgb(37, 12, 82),
@@ -44,45 +41,7 @@ namespace IATRACE {
 					Color::FromArgb(58, 140, 90)
 			};
 
-			int indice_mayor_categoria = 0;
-
-			for (int i = 1; i < conteo_categoria->Length; i++)
-			{
-				if (conteo_categoria[i] > conteo_categoria[indice_mayor_categoria])
-				{
-					indice_mayor_categoria = i;
-				}
-			}
-
-			categoria_top = nombres_categoria[indice_mayor_categoria];
-			cantidad_categoria_top = conteo_categoria[indice_mayor_categoria];
-
-			int indice_mayor_curso = 0;
-
-			for (int i = 1; i < conteo_curso->Length; i++)
-			{
-				if (conteo_curso[i] > conteo_curso[indice_mayor_curso])
-				{
-					indice_mayor_curso = i;
-				}
-			}
-
-			curso_top = nombres_curso[indice_mayor_curso];
-			porcentaje_curso_top = conteo_curso[indice_mayor_curso] * 100.0 / total_curso;
-
-			int indice_mayor_mes = 0;
-
-			for (int i = 1; i < conteo_mes->Length; i++)
-			{
-				if (conteo_mes[i] > conteo_mes[indice_mayor_mes])
-				{
-					indice_mayor_mes = i;
-				}
-			}
-
-			mes_top = nombres_mes[indice_mayor_mes];
-			cantidad_mes_top = conteo_mes[indice_mayor_mes];
-		}
+			actualizarEstadisticas();
 
 	protected:
 		/// <summary>
@@ -102,11 +61,76 @@ namespace IATRACE {
 		/// </summary>
 		System::ComponentModel::Container ^components;
 
+		Bitacora* gestor;
+		int total_registros;
+
+		void actualizarEstadisticas()
+		{
+			for (int i = 0; i < conteo_categoria->Length; i++)
+			{
+				conteo_categoria[i] = 0;
+			}
+
+			for (int i = 0; i < conteo_curso)
+			{
+				conteo_curso[i] = 0;
+			}
+
+			for (int i = 0; i < conteo_mes->Length; i++)
+			{
+				conteo_mes[i] = 0;
+			}
+
+			total_registros = 0;
+			total_registros = 0;
+
+			int cantidad = gestor->obtener_cantidad();
+
+			for (int i = 0; i < cantidad; i++)
+			{
+				Registro* registro = gestor->obtner_por_indice(i);
+
+				if (registro == nullptr)
+				{
+					continue;
+				}
+
+				total_registros++;
+
+				int indice_categoria = static_cast<int>(registro->getcategoria());
+
+				if (indice_cateria >= 0 && indice_categoria < conteo_categoria->Length)
+				{
+					conteo_categoria[indice_categoria];
+				}
+
+				String^ Cursor = gcnew String(registro->getcurso().c_str());
+
+				bool encontrado = false;
+
+				for (int j = 0; j < nombres_curso->Length - 1; j++)
+				{
+					if (curso == nombres_curso())
+					{
+						conteo_curso[j]++;
+						encontrado = true;
+						break;
+					}
+				}
+
+				if (!encontrado)
+				{
+
+				}
+			}
+		}
+
 #pragma region Windows Form Designer generated code
 		/// <summary>
 		/// Método necesario para admitir el Diseñador. No se puede modificar
 		/// el contenido de este método con el editor de código.
 		/// </summary>
+		
 		void InitializeComponent(void)
 		{
 			this->SuspendLayout();
