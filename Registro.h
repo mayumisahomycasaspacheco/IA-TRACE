@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <string>
+
 enum Categoria_Consultada
 {
 	Tarea,
@@ -26,7 +28,7 @@ private:
 	std::string que_se_cambio;
 	std::string como_se_valido;
 public:
-	Registro(int id, std::string fecha, std::string curso, Categoria_Consultada categoria, std::string herramientaIA, std::string que_consultamos, std::string resultado_IA, std::string que_se_cambio, std::string como_se_valido)
+	Registro(int id, std::string fecha, std::string curso, Categoria_Consultada categoria, std::string herramienta_IA, std::string que_consultamos, std::string resultado_IA, std::string que_se_cambio, std::string como_se_valido)
 	{
 		this->id = id;
 		this->fecha = fecha;
@@ -74,7 +76,7 @@ public:
 		return resultado_IA;
 	}
 
-	std::string que_se_cambio()
+	std::string getque_se_cambio()
 	{
 		return que_se_cambio;
 	}
