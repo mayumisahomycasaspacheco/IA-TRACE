@@ -164,6 +164,9 @@
     <ClInclude Include="Registro.h" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Form_Analizis.resx">
+      <DependentUpon>Form_Analizis.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form_Dashboard2.resx">
       <DependentUpon>Form_Dashboard2.h</DependentUpon>
     </EmbeddedResource>
