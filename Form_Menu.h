@@ -2,9 +2,9 @@
 #include "Bitacora.h"
 #include "Form_Registro.h"
 #include "Form_Analizis.h"
-#include "Form_Registro.h"
 #include "From_Dashboard1.h"
 #include "Form_Dashboard2.h"
+#include "Form_Instrucciones.h"
 
 namespace IATRACE {
 
@@ -55,6 +55,7 @@ namespace IATRACE {
 		/// Variable del diseñador necesaria.
 		/// </summary>
 		System::ComponentModel::Container^ components;
+	private: System::Windows::Forms::Label^ label1;
 
 		Bitacora* gestor;
 
@@ -72,6 +73,7 @@ namespace IATRACE {
 			this->button_instrucciones = (gcnew System::Windows::Forms::Button());
 			this->button_salir = (gcnew System::Windows::Forms::Button());
 			this->button_analysis = (gcnew System::Windows::Forms::Button());
+			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// button_registro
@@ -91,24 +93,6 @@ namespace IATRACE {
 			this->button_registro->Text = L"Record AI Usage";
 			this->button_registro->UseVisualStyleBackColor = false;
 			this->button_registro->Click += gcnew System::EventHandler(this, &Form_Menu::button_registro_Click);
-			// 
-			// button_analysis
-			// 
-			this->button_analysis->BackColor = System::Drawing::Color::Black;
-			this->button_analysis->FlatAppearance->BorderColor = System::Drawing::Color::Maroon;
-			this->button_analysis->FlatAppearance->MouseDownBackColor = System::Drawing::Color::Maroon;
-			this->button_analysis->FlatAppearance->MouseOverBackColor = System::Drawing::Color::Indigo;
-			this->button_analysis->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->button_analysis->Font = (gcnew System::Drawing::Font(L"Consolas", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->button_analysis->ForeColor = System::Drawing::Color::PaleGoldenrod;
-			this->button_analysis->Location = System::Drawing::Point(57, 254);
-			this->button_analysis->Name = L"button_analysis";
-			this->button_analysis->Size = System::Drawing::Size(325, 53);
-			this->button_analysis->TabIndex = 1;
-			this->button_analysis->Text = L"Analysis";
-			this->button_analysis->UseVisualStyleBackColor = false;
-			this->button_analysis->Click += gcnew System::EventHandler(this, &Form_Menu::button_analysis_Click);
 			// 
 			// button_dashboard1
 			// 
@@ -182,12 +166,44 @@ namespace IATRACE {
 			this->button_salir->UseVisualStyleBackColor = false;
 			this->button_salir->Click += gcnew System::EventHandler(this, &Form_Menu::button_salir_Click);
 			// 
+			// button_analysis
+			// 
+			this->button_analysis->BackColor = System::Drawing::Color::Black;
+			this->button_analysis->FlatAppearance->BorderColor = System::Drawing::Color::Maroon;
+			this->button_analysis->FlatAppearance->MouseDownBackColor = System::Drawing::Color::Maroon;
+			this->button_analysis->FlatAppearance->MouseOverBackColor = System::Drawing::Color::Indigo;
+			this->button_analysis->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->button_analysis->Font = (gcnew System::Drawing::Font(L"Consolas", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->button_analysis->ForeColor = System::Drawing::Color::PaleGoldenrod;
+			this->button_analysis->Location = System::Drawing::Point(57, 254);
+			this->button_analysis->Name = L"button_analysis";
+			this->button_analysis->Size = System::Drawing::Size(325, 53);
+			this->button_analysis->TabIndex = 1;
+			this->button_analysis->Text = L"Analysis";
+			this->button_analysis->UseVisualStyleBackColor = false;
+			this->button_analysis->Click += gcnew System::EventHandler(this, &Form_Menu::button_analysis_Click);
+			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->BackColor = System::Drawing::Color::Transparent;
+			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label1->ForeColor = System::Drawing::SystemColors::ButtonHighlight;
+			this->label1->Location = System::Drawing::Point(402, 686);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(584, 25);
+			this->label1->TabIndex = 6;
+			this->label1->Text = L"Mayumi Sahomy Casas Paheco - YSWS Snowglobe (Hack Club)";
+			// 
 			// Form_Menu
 			// 
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::None;
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->ClientSize = System::Drawing::Size(1180, 720);
+			this->Controls->Add(this->label1);
 			this->Controls->Add(this->button_analysis);
 			this->Controls->Add(this->button_salir);
 			this->Controls->Add(this->button_instrucciones);
@@ -201,13 +217,15 @@ namespace IATRACE {
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"IA-TRACE - Main Menu";
 			this->ResumeLayout(false);
+			this->PerformLayout();
 
 		}
 #pragma endregion
 
 	private: System::Void button_registro_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		MessageBox::Show("Coming soon.");
+		Form_Registro^ ventana = gcnew Form_Registro(gestor);
+		ventana->ShowDialog();
 	}
 
 	private: System::Void button_analysis_Click(System::Object^ sender, System::EventArgs^ e)
@@ -230,7 +248,8 @@ namespace IATRACE {
 
 	private: System::Void button_instrucciones_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		MessageBox::Show("Coming soon.");
+		Form_Instrucciones^ ventana = gcnew Form_Instrucciones();
+		ventana->ShowDialog();
 	}
 
 	private: System::Void button_salir_Click(System::Object^ sender, System::EventArgs^ e)

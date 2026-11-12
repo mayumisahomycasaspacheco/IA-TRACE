@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClCompile Include="Form_Analizis.cpp" />
     <ClCompile Include="Form_Dashboard2.cpp" />
+    <ClCompile Include="Form_Instrucciones.cpp" />
     <ClCompile Include="Form_Menu.cpp" />
     <ClCompile Include="Form_Registro.cpp" />
     <ClCompile Include="From_Dashboard1.cpp" />
@@ -150,6 +151,9 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Form_Dashboard2.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="Form_Instrucciones.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Form_Menu.h">
@@ -169,6 +173,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form_Dashboard2.resx">
       <DependentUpon>Form_Dashboard2.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Instrucciones.resx">
+      <DependentUpon>Form_Instrucciones.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_Menu.resx">
       <DependentUpon>Form_Menu.h</DependentUpon>
